@@ -237,11 +237,18 @@ if [ $(whoami) = "root"  ]; then
 	cp -R $HOME/archme /home/$USERNAME/
     chown -R $USERNAME: /home/$USERNAME/archme
     echo "archme copied to home directory"
+    
+# Copy some wallpaper and other files to the system
+	cp $HOME/archme/files/99-disable-touchscreen.sh /etc/X11/xinit/xinitrc.d
+	cp -R $HOME/archme/files/Arch-Linux /usr/share/backgrounds
+	cp -R $HOME/archme/files/Wilson /usr/share/backgrounds
+	cp -R $HOME/archme/files/Wilson $HOME/Pictures
+    echo "wallpaper and user icons coppied to system"
 
 # enter $NAME_OF_MACHINE to /etc/hostname
 	echo $NAME_OF_MACHINE > /etc/hostname
 else
-	echo "You are already a user proceed with aur installs"
+	echo "You are already a user. Proceed with aur installs"
 fi
 
 1-setup.sh
