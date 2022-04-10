@@ -243,13 +243,22 @@ if [ $(whoami) = "root"  ]; then
     
 # Copy some wallpaper and other files to the system
 	cp $HOME/archme/files/99-disable-touchscreen.sh /etc/X11/xinit/xinitrc.d
+	cp $HOME/archme/files/.bash_profile $HOME
+	cp $HOME/archme/files/.bashrc $HOME
+	cp $HOME/archme/files/.histfile $HOME
+	cp $HOME/archme/files/.nanorc $HOME
+	cp $HOME/archme/files/.zshrc $HOME
 	cp -R $HOME/archme/files/Arch-Linux /usr/share/backgrounds
 	cp -R $HOME/archme/files/Wilson /usr/share/backgrounds
 	cp -R $HOME/archme/files/Wilson $HOME/Pictures
     echo "wallpaper and user icons coppied to system"
 
-# enter $NAME_OF_MACHINE to /etc/hostname
+# enter $NAME_OF_MACHINE to /etc/hostname and /etc/hosts
 	echo $NAME_OF_MACHINE > /etc/hostname
+	echo "127.0.0.1		localhost" >> /etc/hosts
+	echo "::1		localhost" >> /etc/hosts
+	echo "127.0.1.1		$NAME_OF_MACHINE" >> /etc/hosts
+
 else
 	echo "You are already a user. Proceed with aur installs"
 fi
