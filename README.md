@@ -12,3 +12,17 @@ BTRFS
 Minimal install with KDE desktop
 
 Everything ran just fine.
+
+###########################################################################
+
+Boot the Arch ISO
+
+pacman -Sy       #This will get the keys and sync the databases for the repositories
+
+pacman -S git
+
+git clone https://github.com/wilsonephillips/archme
+
+./archme
+
+Follow the prompts and exit and reboot at the end.
