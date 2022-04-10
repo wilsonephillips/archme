@@ -22,6 +22,7 @@ zsh-history-substring-search
 --END OF MINIMAL INSTALL--
 alsa-plugins
 alsa-utils
+archlinux-wallpaper
 autoconf
 automake
 awesome-terminal-fonts
