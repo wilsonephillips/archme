@@ -75,9 +75,6 @@ patch
 picom
 pkgconf
 powerline-fonts
-pulseaudio
-pulseaudio-alsa
-pulseaudio-bluetooth
 python-notify2
 python-psutil
 python-pyqt5
