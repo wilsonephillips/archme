@@ -110,6 +110,10 @@ systemctl enable bluetooth
 echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
+systemctl enable plasma-powerdevil
+echo "  PowerDevil enabled"
+systemctl enable fstrim.timer
+echo "  fstrim enabled"
 
 echo -ne "
 ------------------------------------------------------
