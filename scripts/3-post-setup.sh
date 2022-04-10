@@ -114,6 +114,8 @@ systemctl enable plasma-powerdevil
 echo "  PowerDevil enabled"
 systemctl enable fstrim.timer
 echo "  fstrim enabled"
+systemctl enable kwrited
+echo "  Kwrited enabled"
 
 echo -ne "
 ------------------------------------------------------
