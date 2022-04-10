@@ -23,6 +23,8 @@ pacman -S git
 
 git clone https://github.com/wilsonephillips/archme
 
+cd archme
+
 ./archme
 
 Follow the prompts and exit and reboot at the end.
