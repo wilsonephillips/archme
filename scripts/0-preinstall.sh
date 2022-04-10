@@ -146,7 +146,7 @@ echo -ne "
                Arch Install on Main Drive
 ------------------------------------------------------
 "
-pacstrap /mnt --noconfirm --needed base base-devel linux linux-firmware linux-headers micro vim nano sudo archlinux-keyring git curl wget terminus-font libnewt
+pacstrap /mnt --noconfirm --needed base base-devel linux linux-firmware linux-headers btrfs-progs micro vim nano sudo archlinux-keyring git curl wget terminus-font libnewt
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/archme
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
