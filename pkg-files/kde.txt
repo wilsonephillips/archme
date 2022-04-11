@@ -72,6 +72,10 @@ grub
 grub-btrfs
 grub-customizer
 gsmartcontrol
+gst-libav
+gst-plugins-good
+gst-plugins-ugly
+gst-plugin-pipewire
 gtk-layer-shell
 gutenprint
 gvfs
@@ -123,6 +127,8 @@ libcups
 libdecor
 libva
 lftp
+lib32-pipewire
+lib32-pipewire-jack
 libcroco
 libreoffice-fresh
 libspeechd
@@ -212,6 +218,7 @@ wget
 wl-clipboard
 wlroots
 wireless_tools
+wireplumber
 wlc
 wpa_supplicant
 xclip
