@@ -64,27 +64,27 @@ echo -ne "
 createsubvolumes () {
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
-#    btrfs subvolume create /mnt/@var
-#    btrfs subvolume create /mnt/@tmp
-#    btrfs subvolume create /mnt/@.snapshots
+    btrfs subvolume create /mnt/@var
+    btrfs subvolume create /mnt/@tmp
+    btrfs subvolume create /mnt/@.snapshots
 }
 
 mountallsubvol () {
     mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-#    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-#    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-#    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
+    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
+    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
+    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
 }
 
 subvolumesetup () {
 # create nonroot subvolumes
-    createsubvolumes
-# unmount root to remount with subvolume
+    createsubvolumes     
+# unmount root to remount with subvolume 
     umount /mnt
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
 # make directories home, .snapshots, var, tmp
-    mkdir -p /mnt/{home,boot}
+    mkdir -p /mnt/{home,var,tmp,.snapshots}
 # mount subvolumes
     mountallsubvol
 }
