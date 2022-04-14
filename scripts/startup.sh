@@ -221,9 +221,9 @@ select_option $? 1 "${options[@]}"
 
 case ${options[$?]} in
     y|Y|yes|Yes|YES)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd,ssd,commit=120";;
+    set_option MOUNT_OPTIONS "noatime,compress=zstd,discard=async,space_cache=v2";;
     n|N|no|NO|No)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd,commit=120";;
+    set_option MOUNT_OPTIONS "noatime,compress=zstd";;
     *) echo "Wrong option. Try again";drivessd;;
 esac
 }
