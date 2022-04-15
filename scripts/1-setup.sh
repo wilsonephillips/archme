@@ -230,8 +230,8 @@ echo -ne "
 "
 if [ $(whoami) = "root"  ]; then
     groupadd libvirt
-    useradd -m -G wheel,libvirt -s /bin/bash $USERNAME
-    echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/bash"
+    useradd -m -G wheel,libvirt -s /bin/zsh $USERNAME
+    echo "$USERNAME created, home directory created, added to wheel and libvirt group, default shell set to /bin/zsh"
 
 # use chpasswd to enter $USERNAME:$password
     echo "$USERNAME:$PASSWORD" | chpasswd
