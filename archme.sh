@@ -43,8 +43,8 @@ echo -ne "
 ------------------------------------------------------
 
      Done - Please Eject Install Media and Reboot
-         Set a password for the user root
+     
+  Set a password for the user root before you reboot!
          
          
 "
-passwd root
