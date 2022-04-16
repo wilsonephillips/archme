@@ -61,32 +61,16 @@ echo -ne "
                Creating Filesystems
 --------------------------------------------------------
 "
-createsubvolumes () {
+subvolumesetup () {
+# create subvolumes
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
-    btrfs subvolume create /mnt/@var
-    btrfs subvolume create /mnt/@tmp
-    btrfs subvolume create /mnt/@.snapshots
-}
-
-mountallsubvol () {
-    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
-}
-
-subvolumesetup () {
-# create nonroot subvolumes
-    createsubvolumes     
 # unmount root to remount with subvolume 
     umount /mnt
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
-# make directories home, .snapshots, var, tmp
-    mkdir -p /mnt/{home,var,tmp,.snapshots}
-# mount subvolumes
-    mountallsubvol
+    mkdir /mnt/home
+    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
 }
 
 if [[ "${DISK}" =~ "nvme" ]]; then
@@ -98,7 +82,7 @@ else
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
-    mkfs.vfat -F32 -n "EFIBOOT" ${partition2}
+    mkfs.fat -F32 -n "EFIBOOT" ${partition2}
     mkfs.btrfs -L ROOT ${partition3} -f
     mount -t btrfs ${partition3} /mnt
     subvolumesetup
@@ -113,9 +97,9 @@ elif [[ "${FS}" == "luks" ]]; then
 # open luks container and ROOT will be place holder
     echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
 # now format that container
-    mkfs.btrfs -L ROOT ${partition3}
+    mkfs.btrfs -U ROOT ${partition3}
 # create subvolumes for btrfs
-    mount -t btrfs ${partition3} /mnt
+    mount btrfs ${partition3} /mnt
     subvolumesetup
 # store uuid of encrypted partition for grub
     echo ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value ${partition3}) >> $CONFIGS_DIR/setup.conf
@@ -151,7 +135,7 @@ echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/archme
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
-genfstab -L /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 echo "
   Generated /etc/fstab:
 "
