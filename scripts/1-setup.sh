@@ -81,13 +81,11 @@ localectl --no-ask-password set-keymap ${KEYMAP}
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
 
-#Add parallel downloading, Candy etc.
+#Add parallel downloading, Candy, Multilib repo, etc.
 sed -i '/#UseSyslog/a ILoveCandy' /etc/pacman.conf
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i 's/^#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
-
-#Enable multilib
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm --needed
 
@@ -248,9 +246,9 @@ if [ $(whoami) = "root"  ]; then
 	cp $HOME/archme/files/.histfile $HOME
 	cp $HOME/archme/files/.nanorc $HOME
 	cp $HOME/archme/files/.zshrc $HOME
-	cp -R $HOME/archme/files/Arch-Linux /usr/share/backgrounds
-	cp -R $HOME/archme/files/Wilson /usr/share/backgrounds
-	cp -R $HOME/archme/files/Wilson $HOME/Pictures
+	cp -R $HOME/archme/files/archlinux /usr/share/backgrounds
+	cp -R $HOME/archme/files/wilson /usr/share/backgrounds
+	cp -R $HOME/archme/files/wilson $HOME/Pictures
     echo "wallpaper and user icons coppied to system"
 
 # enter $NAME_OF_MACHINE to /etc/hostname and /etc/hosts
