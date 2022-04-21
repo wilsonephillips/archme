@@ -47,4 +47,4 @@ echo -ne "
 
 Set a password for the user root
 "
-passwd
+passwd root
