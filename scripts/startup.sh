@@ -191,7 +191,7 @@ case ${options[$?]} in
     echo "${time_zone} set as timezone"
     set_option TIMEZONE $time_zone;;
     n|N|no|NO|No)
-    echo "Please enter your desired timezone e.g. Europe/London :"
+    echo "Please enter your desired timezone e.g. US/Central :"
     read new_timezone
     echo "${new_timezone} set as timezone"
     set_option TIMEZONE $new_timezone;;
@@ -221,7 +221,7 @@ select_option $? 1 "${options[@]}"
 
 case ${options[$?]} in
     y|Y|yes|Yes|YES)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd,discard=async,space_cache=v2";;
+    set_option MOUNT_OPTIONS "noatime,ssd,compress=zstd,discard=async,space_cache=v2";;
     n|N|no|NO|No)
     set_option MOUNT_OPTIONS "noatime,compress=zstd";;
     *) echo "Wrong option. Try again";drivessd;;
