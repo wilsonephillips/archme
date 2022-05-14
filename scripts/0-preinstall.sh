@@ -19,7 +19,7 @@ iso=$(curl -4 ifconfig.co/country-iso)
 timedatectl set-ntp true
 pacman -S --noconfirm archlinux-keyring #update keyrings to latest to prevent packages failing to install
 pacman -S --noconfirm --needed pacman-contrib terminus-font
-setfont ter-v22b
+setfont ter-v24b
 sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
@@ -65,17 +65,17 @@ echo -ne "
 createsubvolumes () {
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
-#    btrfs subvolume create /mnt/@var
-#    btrfs subvolume create /mnt/@tmp
-#    btrfs subvolume create /mnt/@.snapshots
+    btrfs subvolume create /mnt/@var
+    btrfs subvolume create /mnt/@tmp
+    btrfs subvolume create /mnt/@.snapshots
 }
 
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
     mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-#    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-#    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-#    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
+    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
+    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
+    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
 }
 
 # @description BTRFS subvolulme creation and mounting. 
@@ -86,8 +86,11 @@ subvolumesetup () {
     umount /mnt
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
-# make directories home, .snapshots, var, tmp
+# make directories home, .snapshots, var, tmp (separated for reasons)
     mkdir -p /mnt/home
+    mkdir -p /mnt/.snapshots
+    mkdir -p /mnt/var
+    mkdir -p /mnt/tmp
 # mount subvolumes
     mountallsubvol
 }
