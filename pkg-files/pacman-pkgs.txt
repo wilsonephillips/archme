@@ -72,7 +72,6 @@ ntp
 openssh
 os-prober
 p7zip
-packagekit
 patch
 picom
 pkgconf
