@@ -16,9 +16,10 @@ xdg-user-dirs
 xdg-utils
 zram-generator
 zsh
-zsh-syntax-highlighting
+zsh-completions
 zsh-autosuggestions
 zsh-history-substring-search
+zsh-syntax-highlighting
 --END OF MINIMAL INSTALL--
 alsa-plugins
 alsa-utils
@@ -90,4 +91,3 @@ unrar
 unzip
 which
 zip
-zram-generator
