@@ -16,6 +16,15 @@ echo -ne "
          GRUB EFI Bootloader Install & Check
 ------------------------------------------------------
 "
+# Let's configure the ZRAM. You can edit it to suit you later in the .conf file.
+
+touch /etc/systemd/zram-generator.conf
+echo "[zram0]" > /etc/systemd/zram-generator.conf
+echo "zram-size = min(ram, 2048)" >> /etc/systemd/zram-generator.conf
+echo "mount-point = /var/compressed" >> /etc/systemd/zram-generator.conf
+
+# Let's setup Grub.
+
 source ${HOME}/archme/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then
@@ -116,6 +125,8 @@ systemctl enable fstrim.timer
 echo "  fstrim enabled"
 systemctl enable kwrited
 echo "  Kwrited enabled"
+systemctl enable zram0.service
+echo " zRam-generator cache enabled"
 
 echo -ne "
 ------------------------------------------------------
