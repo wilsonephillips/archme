@@ -23,6 +23,9 @@ echo "[zram0]" > /etc/systemd/zram-generator.conf
 echo "zram-size = min(ram, 2048)" >> /etc/systemd/zram-generator.conf
 echo "mount-point = /var/compressed" >> /etc/systemd/zram-generator.conf
 
+touch /etc/sysctl.d/99-swappiness.conf
+echo "vm.swappiness=10" /etc/sysctl.d/99-swappiness.conf
+
 # Let's setup Grub.
 
 source ${HOME}/archme/configs/setup.conf
@@ -126,7 +129,7 @@ echo "  fstrim enabled"
 systemctl enable kwrited
 echo "  Kwrited enabled"
 systemctl enable zram0.service
-echo " zRam-generator cache enabled"
+echo " zRam-generator enabled"
 
 echo -ne "
 ------------------------------------------------------
