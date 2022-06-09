@@ -76,6 +76,12 @@ p7zip
 packagekit
 patch
 picom
+pcaudiolib
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+pipewire-media-session
 pkgconf
 powerline-fonts
 python-notify2
