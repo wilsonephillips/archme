@@ -246,6 +246,11 @@ if [ $(whoami) = "root"  ]; then
 	cp $HOME/archme/files/.histfile $HOME
 	cp $HOME/archme/files/.nanorc $HOME
 	cp $HOME/archme/files/.zshrc $HOME
+	cp $HOME/archme/files/.bash_profile /root
+	cp $HOME/archme/files/.bashrc /root
+	cp $HOME/archme/files/.histfile /root
+	cp $HOME/archme/files/.nanorc /root
+	cp $HOME/archme/files/.zshrc /root
 	cp -R $HOME/archme/files/archlinux /usr/share/backgrounds
 	cp -R $HOME/archme/files/wilson /usr/share/backgrounds
 	cp -R $HOME/archme/files/wilson $HOME/Pictures
@@ -255,7 +260,9 @@ if [ $(whoami) = "root"  ]; then
 	echo $NAME_OF_MACHINE > /etc/hostname
 	echo "127.0.0.1		localhost" >> /etc/hosts
 	echo "::1		localhost" >> /etc/hosts
-	echo "127.0.1.1		$NAME_OF_MACHINE" >> /etc/hosts
+	echo "127.0.1.1		$NAME_OF_MACHINE.local	$NAME_OF_MACHINE" >> /etc/hosts
+	echo "192.168.1.5	brother.local		brother" >> /etc/hosts
+	echo "192.168.1.10	heisenberg.local	heisenberg" >> /etc/hosts
 
 else
 	echo "You are already a user. Proceed with aur installs"
