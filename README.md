@@ -15,7 +15,7 @@ setfont ter-i28n # The small font on the laptop screen is not readable for me. T
 
 iwctl
 
-station wlan0 connect Wilson-Lot-12
+station wlan0 connect <SSID>
 
 Put in the password for the Wi-Fi
 
