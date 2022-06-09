@@ -146,6 +146,10 @@ echo -ne "
                      Cleaning Up
 ------------------------------------------------------
 "
+# Set a password for the user ROOT
+# if this is not done, root is disabled.
+passwd root
+
 # Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
