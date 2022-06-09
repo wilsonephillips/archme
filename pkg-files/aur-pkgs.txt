@@ -1,7 +1,6 @@
 --END OF MINIMAL INSTALL--
 autoupgrade
 brave-bin
-brscan5
 spotify
 ttf-meslo
 ttf-ms-fonts
