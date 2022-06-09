@@ -113,6 +113,7 @@ kleopatra
 konsole
 krita
 kruler
+kscreen
 ksnip
 kwalletmanager
 kwallet-pam
@@ -164,6 +165,7 @@ pipewire
 pipewire-alsa
 pipewire-pulse
 pipewire-jack
+pipewire-media-session
 plasma-browser-integration
 plasma-desktop
 plasma-disks
