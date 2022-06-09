@@ -42,9 +42,9 @@ alias search="fd -Hl --base-directory /"
 alias cat="bat"
 alias top="htop"
 
-# Pacman and YAY commands
-alias clean="yay -Sc"
-alias upy="yay -Syu"
+# Pacman and Paru commands
+alias clean="paru -Sc"
+alias upp="paru -Syu"
 alias cache="sudo paccache -rk1"
 
 # Commands that are just too long to remember
@@ -54,5 +54,5 @@ alias init="mkinitcpio -p linux"
 
 ############ STARTUP SECTION ###############
 # Execute these commands when the terminal starts
-neofetch
+# neofetch
 
