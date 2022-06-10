@@ -76,6 +76,8 @@ localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
 ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 # Set keymaps
 localectl --no-ask-password set-keymap ${KEYMAP}
+echo KEYMAP=us >> /etc/vconsole.conf
+echo FONT=ter-i28n.psf.gz
 
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
