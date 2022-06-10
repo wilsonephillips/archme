@@ -20,7 +20,7 @@ echo -ne "
 
 touch /etc/systemd/zram-generator.conf
 echo "[zram0]" > /etc/systemd/zram-generator.conf
-echo "zram-size = min(ram, 2048)" >> /etc/systemd/zram-generator.conf
+echo "zram-size = min(ram, 4096)" >> /etc/systemd/zram-generator.conf
 echo "mount-point = /var/compressed" >> /etc/systemd/zram-generator.conf
 
 touch /etc/sysctl.d/99-swappiness.conf
