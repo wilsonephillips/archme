@@ -11,7 +11,6 @@ dosfstools
 linux-headers
 micro
 noto-fonts-emoji
-rpmextract
 rpm-tools
 usbutils
 xdg-user-dirs
