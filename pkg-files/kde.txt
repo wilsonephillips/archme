@@ -1,5 +1,6 @@
 plasma-desktop
 sddm
+addm-kcm
 ark
 dolphin
 github-desktop
