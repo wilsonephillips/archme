@@ -45,6 +45,7 @@ cups
 ddrescue
 dialog
 discord
+discover
 dolphin
 dolphin-plugins
 dosfstools
