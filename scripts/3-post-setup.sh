@@ -130,6 +130,8 @@ systemctl enable kwrited
 echo "  Kwrited enabled"
 systemctl enable zram0.service
 echo " zRam-generator enabled"
+systemctl enable sshd
+echo " SSH Server enabled"
 
 echo -ne "
 ------------------------------------------------------
