@@ -148,8 +148,8 @@ echo -ne "
                      Cleaning Up
 ------------------------------------------------------
 "
-# Set a password for the user ROOT
-# if this is not done, root is disabled.
+echo "Set a password for the user root"
+echo "Leave blank to disable user root"
 passwd root
 
 # Remove no password sudo rights
