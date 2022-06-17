@@ -31,7 +31,7 @@ echo "vm.swappiness=10" /etc/sysctl.d/99-swappiness.conf
 source ${HOME}/archme/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then
-    grub-install --efi-directory=/boot ${DISK}
+    grub-install --efi-directory=/boot /dev/nvme0n1
 fi
 
 echo -ne "
