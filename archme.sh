@@ -41,6 +41,7 @@ echo -ne "
 ------------------------------------------------------
             Automated Arch Linux Installer
 ------------------------------------------------------
+"
 
      Done - Please Eject Install Media and Reboot
      
