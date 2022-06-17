@@ -43,17 +43,13 @@ echo -ne "
 "
 umount -A --recursive /mnt # make sure everything is unmounted before we start
 # disk prep
-sgdisk -Z ${DISK} # zap all on disk
-sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
+sgdisk -Z /dev/nvme0n1 # zap all on disk
+sgdisk -a 2048 -o /dev/nvme0n1 # new gpt disk 2048 alignment
 
 # create partitions
-# sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
-sgdisk -n 1::+500M --typecode=1:ef00 --change-name=1:'EFIBOOT' ${DISK} # partition 1 (UEFI Boot Partition)
-sgdisk -n 2::-0 --typecode=3:8300 --change-name=2:'ROOT' ${DISK} # partition 2 (Root), default start, remaining
-if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
-    sgdisk -A 1:set:2 ${DISK}
-fi
-partprobe ${DISK} # reread partition table to ensure it is correct
+sgdisk -n 1::+500M --typecode=1:ef00 --change-name=1:'EFIBOOT' /dev/nvme0n1 # partition 1 (UEFI Boot Partition)
+sgdisk -n 2::-0 --typecode=2:8300 --change-name=2:'ARCH' /dev/nvme0n1 # partition 2 (Arch), default start, remaining
+partprobe /dev/nvme0n1 # reread partition table to ensure it is correct
 
 # make filesystems
 echo -ne "
@@ -72,10 +68,10 @@ createsubvolumes () {
 
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
-    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
+    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition2} /mnt/home
+    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition2} /mnt/var
+    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition2} /mnt/tmp
+    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition2} /mnt/.snapshots
 }
 
 # @description BTRFS subvolulme creation and mounting. 
@@ -85,7 +81,7 @@ subvolumesetup () {
 # unmount root to remount with subvolume 
     umount /mnt
 # mount @ subvolume
-    mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
+    mount -o ${MOUNT_OPTIONS},subvol=@ ${partition2} /mnt
 # make directories home, .snapshots, var, tmp (separated for reasons)
     mkdir -p /mnt/home
     mkdir -p /mnt/.snapshots
@@ -96,11 +92,8 @@ subvolumesetup () {
 }
 
 if [[ "${DISK}" =~ "nvme" ]]; then
-    partition1=${DISK}p1
-    partition2=${DISK}p2
-else
-    partition2=${DISK}2
-    partition3=${DISK}3
+    partition1=/dev/nvme0n1p1
+    partition2=/dev/nvme0n1p2
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
@@ -108,23 +101,6 @@ if [[ "${FS}" == "btrfs" ]]; then
     mkfs.btrfs -L ROOT ${partition2} -f
     mount -t btrfs ${partition2} /mnt
     subvolumesetup
-elif [[ "${FS}" == "ext4" ]]; then
-    mkfs.fat -F32 -n "EFIBOOT" ${partition2}
-    mkfs.ext4 -L ROOT ${partition3}
-    mount -t ext4 ${partition3} /mnt
-elif [[ "${FS}" == "luks" ]]; then
-    mkfs.fat -F32 -n "EFIBOOT" ${partition2}
-# enter luks password to cryptsetup and format root partition
-    echo -n "${LUKS_PASSWORD}" | cryptsetup -y -v luksFormat ${partition3} -
-# open luks container and ROOT will be place holder
-    echo -n "${LUKS_PASSWORD}" | cryptsetup open ${partition3} ROOT -
-# now format that container
-    mkfs.btrfs -U ROOT ${partition3}
-# create subvolumes for btrfs
-    mount btrfs ${partition3} /mnt
-    subvolumesetup
-# store uuid of encrypted partition for grub
-    echo ENCRYPTED_PARTITION_UUID=$(blkid -s UUID -o value ${partition3}) >> $CONFIGS_DIR/setup.conf
 fi
 
 # mount target
