@@ -76,7 +76,7 @@ timedatectl --no-ask-password set-ntp 1
 ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 # Set keymaps
 echo KEYMAP=us > /etc/vconsole.conf
-echo FONT=ter-i28n.psf.gz >> /etc/vconsole.conf
+echo FONT=ter-i24b.psf.gz >> /etc/vconsole.conf
 
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
