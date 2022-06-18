@@ -68,20 +68,20 @@ createsubvolumes () {
 
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
-    mount -o ${MOUNT_OPTIONS},subvol=@home ${partition2} /mnt/home
-    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition2} /mnt/var
-    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition2} /mnt/tmp
-    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition2} /mnt/.snapshots
+    mount -o ${MOUNT_OPTIONS},subvol=@home /dev/nvme0n1p2 /mnt/home
+    mount -o ${MOUNT_OPTIONS},subvol=@var /dev/nvme0n1p2 /mnt/var
+    mount -o ${MOUNT_OPTIONS},subvol=@tmp /dev/nvme0n1p2 /mnt/tmp
+    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots /dev/nvme0n1p2 /mnt/.snapshots
 }
 
-# @description BTRFS subvolulme creation and mounting. 
+# @description BTRFS subvolume creation and mounting. 
 subvolumesetup () {
 # create nonroot subvolumes
     createsubvolumes     
 # unmount root to remount with subvolume 
     umount /mnt
 # mount @ subvolume
-    mount -o ${MOUNT_OPTIONS},subvol=@ ${partition2} /mnt
+    mount -o ${MOUNT_OPTIONS},subvol=@ /dev/nvme0n1p2 /mnt
 # make directories home, .snapshots, var, tmp (separated for reasons)
     mkdir -p /mnt/home
     mkdir -p /mnt/.snapshots
@@ -91,15 +91,10 @@ subvolumesetup () {
     mountallsubvol
 }
 
-if [[ "${DISK}" =~ "nvme" ]]; then
-    partition1=/dev/nvme0n1p1
-    partition2=/dev/nvme0n1p2
-fi
-
 if [[ "${FS}" == "btrfs" ]]; then
-    mkfs.fat -F32 -n "EFIBOOT" ${partition1}
-    mkfs.btrfs -L ROOT ${partition2} -f
-    mount -t btrfs ${partition2} /mnt
+    mkfs.fat -F32 -n "EFIBOOT" /dev/nvme0n1p1
+    mkfs.btrfs -L Arch /dev/nvme0n1p2 -f
+    mount -t btrfs /dev/nvme0n1p2 /mnt
     subvolumesetup
 fi
 
@@ -144,7 +139,7 @@ echo -ne "
 -------------------------------------------------------
 "
 if [[ ! -d "/sys/firmware/efi" ]]; then
-    grub-install --boot-directory=/mnt/boot ${DISK}
+    grub-install --boot-directory=/mnt/boot /dev/nvme0n1p1
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
 fi
