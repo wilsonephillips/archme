@@ -144,107 +144,21 @@ echo -ne "
 "
 }
 filesystem () {
-# This function will handle file systems. At this movement we are handling only
-# btrfs and ext4. Others will be added in future.
-echo -ne "
-Please Select your file system for both boot and root
-"
-options=("btrfs" "ext4" "luks" "exit")
-select_option $? 1 "${options[@]}"
-
-case $? in
-0) set_option FS btrfs;;
-1) set_option FS ext4;;
-2)
-while true; do
-  echo -ne "Please enter your luks password: \n"
-  read -s luks_password # read password without echo
-
-  echo -ne "Please repeat your luks password: \n"
-  read -s luks_password2 # read password without echo
-
-  if [ "$luks_password" = "$luks_password2" ]; then
-    set_option LUKS_PASSWORD $luks_password
-    set_option FS luks
-    break
-  else
-    echo -e "\nPasswords do not match. Please try again. \n"
-  fi
-done
-;;
-3) exit ;;
-*) echo "Wrong option please select again"; filesystem;;
-esac
+    set_option FS btrfs
 }
 timezone () {
-# Added this from arch wiki https://wiki.archlinux.org/title/System_time
-time_zone="$(curl --fail https://ipapi.co/timezone)"
-echo -ne "
-System detected your timezone to be '$time_zone' \n"
-echo -ne "Is this correct?
-"
-options=("Yes" "No")
-select_option $? 1 "${options[@]}"
-
-case ${options[$?]} in
-    y|Y|yes|Yes|YES)
-    echo "${time_zone} set as timezone"
-    set_option TIMEZONE $time_zone;;
-    n|N|no|NO|No)
-    echo "Please enter your desired timezone e.g. US/Central :"
-    read new_timezone
-    echo "${new_timezone} set as timezone"
-    set_option TIMEZONE $new_timezone;;
-    *) echo "Wrong option. Try again";timezone;;
-esac
+    set_option TIMEZONE US/Central
 }
 keymap () {
-echo -ne "
-Please select key board layout from this list"
-# These are default key maps as presented in official arch repo archinstall
-options=(us by ca cf cz de dk es et fa fi fr gr hu il it lt lv mk nl no pl ro ru sg ua uk)
-
-select_option $? 4 "${options[@]}"
-keymap=${options[$?]}
-
-echo -ne "Your key boards layout: ${keymap} \n"
-set_option KEYMAP $keymap
+set_option KEYMAP us
 }
 
 drivessd () {
-echo -ne "
-Is this an ssd? yes/no:
-"
-
-options=("Yes" "No")
-select_option $? 1 "${options[@]}"
-
-case ${options[$?]} in
-    y|Y|yes|Yes|YES)
-    set_option MOUNT_OPTIONS "noatime,ssd,compress=zstd,discard=async,space_cache=v2";;
-    n|N|no|NO|No)
-    set_option MOUNT_OPTIONS "noatime,compress=zstd";;
-    *) echo "Wrong option. Try again";drivessd;;
-esac
+    set_option MOUNT_OPTIONS "noatime,ssd,compress=zstd,discard=async,space_cache=v2"
 }
 
 # selection for disk type
 diskpart () {
-echo -ne "
------------------------------------------------------
-   █████╗ ██████╗  ██████╗██╗  ██╗ ██████╗  ██████╗
-  ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔██╔██╗██╔════╝
-  ███████║██████╔╝██║     ███████║██║██║██║██████╗ 
-  ██╔══██║██╔══██╗██║     ██╔══██║██║██║██║██╔═══╝ 
-  ██║  ██║██║  ██║╚██████╗██║  ██║██║██║██║╚██████╗
-  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝ ╚═════╝
------------------------------------------------------
-
-THIS WILL FORMAT AND DELETE ALL DATA ON THE DISK
-Please make sure you know what you are doing because
-after formating your disk there is no way to get data back
------------------------------------------------------
-"
 
 PS3='
 Select the disk to install on: '
@@ -280,35 +194,16 @@ set_option NAME_OF_MACHINE $nameofmachine
 }
 
 aurhelper () {
-  # Let the user choose AUR helper from predefined list
-  echo -ne "Please enter your desired AUR helper:\n"
-  options=(paru yay picaur aura trizen pacaur none)
-  select_option $? 4 "${options[@]}"
-  aur_helper=${options[$?]}
-  set_option AUR_HELPER $aur_helper
+  set_option AUR_HELPER paru
 }
 
 desktopenv () {
-  # Let the user choose Desktop Enviroment from predefined list
-  echo -ne "Please select your desired Desktop Enviroment:\n"
-  options=(gnome kde cinnamon xfce mate budgie lxde deepin openbox server)
-  select_option $? 4 "${options[@]}"
-  desktop_env=${options[$?]}
-  set_option DESKTOP_ENV $desktop_env
+  set_option DESKTOP_ENV kde
 }
 
 installtype () {
-  echo -ne "Please select type of installation:\n\n
-  Full install: Installs full featured desktop enviroment, with added apps and themes needed for everyday use\n
-  Minimal Install: Installs only apps few selected apps to get you started\n"
-  options=(FULL MINIMAL)
-  select_option $? 4 "${options[@]}"
-  install_type=${options[$?]}
-  set_option INSTALL_TYPE $install_type
+  set_option INSTALL_TYPE FULL
 }
-
-# More features in future
-# language (){}
 
 # Starting functions
 clear
