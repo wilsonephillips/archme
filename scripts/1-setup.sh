@@ -71,9 +71,9 @@ echo -ne "
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-timedatectl --no-ask-password set-timezone ${TIMEZONE}
+timedatectl --no-ask-password set-timezone US/Central
 timedatectl --no-ask-password set-ntp 1
-ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+ln -s /usr/share/zoneinfo/US/Central /etc/localtime
 # Set keymaps
 echo KEYMAP=us > /etc/vconsole.conf
 echo FONT=ter-i24b.psf.gz >> /etc/vconsole.conf
@@ -212,6 +212,13 @@ echo "password=${password,,}" >> ${HOME}/archme/configs/setup.conf
 
     echo "NAME_OF_MACHINE=${name_of_machine,,}" >> ${HOME}/archme/configs/setup.conf
 fi
+
+
+# add btrfs in mkinitcpio.conf in modules section
+    sed -i 's/^MODULES=()/MODULES=(btrfs)/' /etc/mkinitcpio.conf.conf
+# making mkinitcpio with linux kernel
+    mkinitcpio -p linux
+
 echo -ne "
 ------------------------------------------------------
    █████╗ ██████╗  ██████╗██╗  ██╗ ██████╗  ██████╗
@@ -271,22 +278,6 @@ fi
 
 1-setup.sh
 
-if [[ ${FS} == "btrfs" ]]; then
-
-# Making sure to edit mkinitcpio.conf if btrfs is selected
-# add btrfs in mkinitcpio.conf in modules section
-    sed -i 's/^MODULES=()/MODULES=(btrfs)/' /etc/mkinitcpio.conf.conf
-# making mkinitcpio with linux kernel
-    mkinitcpio -p linux
-fi
-
-if [[ ${FS} == "luks" ]]; then
-# Making sure to edit mkinitcpio.conf if luks is selected
-# add encrypt in mkinitcpio.conf before filesystems in hooks
-    sed -i 's/filesystems/encrypt filesystems/g' /etc/mkinitcpio.conf
-# making mkinitcpio with linux kernel
-    mkinitcpio -p linux
-fi
 echo -ne "
 ------------------------------------------------------
    █████╗ ██████╗  ██████╗██╗  ██╗ ██████╗  ██████╗
