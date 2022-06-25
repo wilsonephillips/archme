@@ -194,7 +194,7 @@ set_option NAME_OF_MACHINE $nameofmachine
 }
 
 aurhelper () {
-  set_option AUR_HELPER paru
+  set_option AUR_HELPER paru-bin
 }
 
 desktopenv () {
