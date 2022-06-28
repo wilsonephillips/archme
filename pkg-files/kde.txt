@@ -54,6 +54,7 @@ dnsutils
 ethtool
 exa
 exfatprogs
+extra-cmake-modules
 fatresize
 fd
 ffmpegthumbs
@@ -88,6 +89,7 @@ hplip
 htop
 hunspell
 hunspell-en_us
+ibus
 imv
 imwheel
 inetutils
@@ -97,6 +99,8 @@ ipset
 ipw2100-fw
 ipw2200-fw
 ispell
+intltool
+kaccounts-integration
 kate
 kdegraphics-thumbnailers
 kde-gtk-config
@@ -152,6 +156,7 @@ ndisc6
 neofetch
 networkmanager
 network-manager-applet
+networkmanager-qt
 nfs-utils
 ntfs-3g
 nvme-cli
@@ -194,6 +199,7 @@ reflector
 rsync
 rust
 sane-airscan
+scim
 sddm
 sddm-kcm
 skanlite
